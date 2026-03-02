@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Trade Terminal | 智能交易策略平台</title>
+    <title>FourMeme AI Trader | MEME 代币智能交易</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <style>
@@ -566,8 +566,8 @@
     <nav class="nav">
         <div class="nav-inner">
             <a href="#" class="nav-logo">
-                <div class="nav-logo-icon">🤖</div>
-                <span class="nav-logo-text">AI Trade Terminal</span>
+                <div class="nav-logo-icon">🐸</div>
+                <span class="nav-logo-text">FourMeme AI</span>
             </a>
             
             <div class="nav-links">
@@ -596,7 +596,7 @@
         <!-- Stats Bar -->
         <div class="stats-bar">
             <div class="stat-item">
-                <div class="stat-label">总资产</div>
+                <div class="stat-label">MEME 代币</div>
                 <div class="stat-value" id="totalAssets">$0.00</div>
                 <div class="stat-change positive">+0.00%</div>
             </div>
@@ -611,7 +611,7 @@
                 <div class="stat-change">运行中</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">总交易次数</div>
+                <div class="stat-label">已交易 MEME</div>
                 <div class="stat-value" id="totalTrades">0</div>
                 <div class="stat-change">累计</div>
             </div>
@@ -624,8 +624,8 @@
                 <div class="card" style="margin-bottom: 24px;">
                     <div class="card-header">
                         <div class="card-title">
-                            <div class="card-title-icon">📊</div>
-                            <span>创建交易策略</span>
+                            <div class="card-title-icon">🎯</div>
+                            <span>创建 MEME 交易策略</span>
                         </div>
                     </div>
                     
@@ -633,35 +633,38 @@
                         <form class="strategy-form" id="strategyForm">
                             <div class="form-group">
                                 <label class="form-label">策略名称</label>
-                                <input type="text" class="form-input" id="strategyName" placeholder="例如：趋势跟踪策略" required>
+                                <input type="text" class="form-input" id="strategyName" placeholder="例如：PEPE 狙击手" required>
                             </div>
                             
                             <div class="form-group">
-                                <label class="form-label">策略类型</label>
+                                <label class="form-label">MEME 交易策略类型</label>
                                 <select class="form-select" id="strategyType" required>
-                                    <option value="0">📈 趋势跟踪 (Trend Following)</option>
-                                    <option value="1">⚡ 套利 (Arbitrage)</option>
-                                    <option value="2">🔄 网格交易 (Grid Trading)</option>
-                                    <option value="3">🚀 动量交易 (Momentum)</option>
-                                    <option value="4">📉 均值回归 (Mean Reversion)</option>
+                                    <option value="0">🚀 新币狙击 (New Listing Sniper)</option>
+                                    <option value="1">📈 趋势跟随 (Trend Following)</option>
+                                    <option value="2">💎 波段交易 (Swing Trading)</option>
+                                    <option value="3">⚡ 高频刷单 (High Frequency)</option>
+                                    <option value="4">🛡️ 止损保护 (Stop Loss Guard)</option>
                                 </select>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">基础代币 (Base Token)</label>
+                                    <label class="form-label">交易对 (From)</label>
                                     <select class="form-select" id="baseToken">
-                                        <option value="0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c">WBNB</option>
+                                        <option value="0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c">BNB</option>
                                         <option value="0x55d398326f99059fF775485246999027B3197955">USDT</option>
                                         <option value="0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d">USDC</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">目标代币 (Target Token)</label>
+                                    <label class="form-label">目标 MEME 代币</label>
                                     <select class="form-select" id="targetToken">
-                                        <option value="0x55d398326f99059fF775485246999027B3197955">USDT</option>
-                                        <option value="0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c">WBNB</option>
-                                        <option value="0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d">USDC</option>
+                                        <option value="0x6B0f263B19b43E24BCdD267b0C6FFc06e159d674">🐸 PEPE</option>
+                                        <option value="0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3">🐶 DOGE</option>
+                                        <option value="0x8F5c8b9b8C0eD6E8dC4B1B2A5F3C7D9E1B4A8C2">🐱 SHIB</option>
+                                        <option value="0x9A4c8B9b8C0eD6E8dC4B1B2A5F3C7D9E1B4A8D3">🦎 FLOKI</option>
+                                        <option value="0x7B3c8B9b8C0eD6E8dC4B1B2A5F3C7D9E1B4A8E4">🐵 BONK</option>
+                                        <option value="0x5C2c8B9b8C0eD6E8dC4B1B2A5F3C7D9E1B4A8F5">🦆 DUCK</option>
                                     </select>
                                 </div>
                             </div>
@@ -669,22 +672,24 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">止盈比例 (%)</label>
-                                    <input type="number" class="form-input" id="takeProfit" value="5" min="1" max="50" step="0.5" required>
+                                    <input type="number" class="form-input" id="takeProfit" value="50" min="10" max="1000" step="10" required>
+                                    <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; display: block;">MEME 建议: 50%-500%</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">止损比例 (%)</label>
-                                    <input type="number" class="form-input" id="stopLoss" value="3" min="1" max="30" step="0.5" required>
+                                    <input type="number" class="form-input" id="stopLoss" value="20" min="5" max="50" step="5" required>
+                                    <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; display: block;">MEME 建议: 15%-30%</span>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">投资金额 (BNB)</label>
                                 <input type="number" class="form-input" id="investment" placeholder="0.1" min="0.01" step="0.01" required>
-                                <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; display: block;">最低投资: 0.01 BNB</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; display: block;">最低投资: 0.01 BNB | 建议分散投资多个 MEME</span>
                             </div>
                             
                             <button type="submit" class="btn-primary" id="createStrategyBtn">
-                                🚀 创建策略
+                                🚀 启动 MEME 交易策略
                             </button>
                         </form>
                     </div>
@@ -695,9 +700,9 @@
                     <div class="card-header">
                         <div class="card-title">
                             <div class="card-title-icon">🤖</div>
-                            <span>AI 交易代理</span>
+                            <span>MEME 交易机器人</span>
                         </div>
-                        <button class="btn-connect" style="padding: 8px 16px; font-size: 0.875rem;">+ 创建代理</button>
+                        <button class="btn-connect" style="padding: 8px 16px; font-size: 0.875rem;">+ 创建机器人</button>
                     </div>
                     
                     <div class="card-body">
@@ -705,48 +710,48 @@
                             <div class="agent-card">
                                 <div class="agent-header">
                                     <div class="agent-info">
-                                        <div class="agent-avatar">🦈</div>
+                                        <div class="agent-avatar">🐸</div>
                                         <div>
-                                            <div class="agent-name">Alpha Shark</div>
-                                            <div class="agent-type">趋势跟踪型</div>
+                                            <div class="agent-name">PEPE Sniper</div>
+                                            <div class="agent-type">新币狙击型</div>
                                         </div>
                                     </div>
                                     <div class="agent-status">运行中</div>
                                 </div>
                                 
                                 <div class="agent-stats">
-                                    <div class="agent-stat"><div class="agent-stat-value">+34.2%</div><div class="agent-stat-label">收益率</div></div>
-                                    <div class="agent-stat"><div class="agent-stat-value">89</div><div class="agent-stat-label">交易数</div></div>
-                                    <div class="agent-stat"><div class="agent-stat-value">$24.5K</div><div class="agent-stat-label">资金</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">+340%</div><div class="agent-stat-label">收益率</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">23</div><div class="agent-stat-label">交易数</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">5.2K</div><div class="agent-stat-label">资金</div></div>
                                 </div>
                                 
                                 <div class="agent-pnl">
                                     <span class="agent-pnl-label">累计收益</span>
-                                    <span class="agent-pnl-value">+$8,340</span>
+                                    <span class="agent-pnl-value">+$17,680</span>
                                 </div>
                             </div>
 
                             <div class="agent-card">
                                 <div class="agent-header">
                                     <div class="agent-info">
-                                        <div class="agent-avatar" style="background: linear-gradient(135deg, #A855F7, #7C3AED);">🦅</div>
+                                        <div class="agent-avatar" style="background: linear-gradient(135deg, #F59E0B, #D97706);">🐶</div>
                                         <div>
-                                            <div class="agent-name">Quantum Eagle</div>
-                                            <div class="agent-type">套利型</div>
+                                            <div class="agent-name">DOGE Hunter</div>
+                                            <div class="agent-type">波段交易型</div>
                                         </div>
                                     </div>
                                     <div class="agent-status">运行中</div>
                                 </div>
                                 
                                 <div class="agent-stats">
-                                    <div class="agent-stat"><div class="agent-stat-value">+28.7%</div><div class="agent-stat-label">收益率</div></div>
-                                    <div class="agent-stat"><div class="agent-stat-value">156</div><div class="agent-stat-label">交易数</div></div>
-                                    <div class="agent-stat"><div class="agent-stat-value">$18.2K</div><div class="agent-stat-label">资金</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">+180%</div><div class="agent-stat-label">收益率</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">45</div><div class="agent-stat-label">交易数</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">3.8K</div><div class="agent-stat-label">资金</div></div>
                                 </div>
                                 
                                 <div class="agent-pnl">
                                     <span class="agent-pnl-label">累计收益</span>
-                                    <span class="agent-pnl-value">+$5,210</span>
+                                    <span class="agent-pnl-value">+$6,840</span>
                                 </div>
                             </div>
                         </div>
@@ -761,45 +766,57 @@
                     <div class="card-header">
                         <div class="card-title">
                             <div class="card-title-icon" style="background: rgba(245, 158, 11, 0.1);">🔥</div>
-                            <span>热门代币</span>
+                            <span>热门 MEME 代币</span>
                         </div>
                     </div>
                     
                     <div class="card-body" style="padding: 0;">
                         <div class="token-list">
                             <div class="token-item">
-                                <div class="token-icon">🥇</div>
+                                <div class="token-icon">🐸</div>
                                 <div class="token-info">
-                                    <div class="token-symbol">BTC</div>
-                                    <div class="token-name">Bitcoin</div>
+                                    <div class="token-symbol">PEPE</div>
+                                    <div class="token-name">Pepe Coin</div>
                                 </div>
                                 <div class="token-price">
-                                    <div class="token-price-value">$67,234</div>
-                                    <div class="token-price-change" style="color: var(--accent-green);">+2.34%</div>
+                                    <div class="token-price-value">$0.000012</div>
+                                    <div class="token-price-change" style="color: var(--accent-green);">+45.2%</div>
                                 </div>
                             </div>
 
                             <div class="token-item">
-                                <div class="token-icon">🥈</div>
+                                <div class="token-icon">🐶</div>
                                 <div class="token-info">
-                                    <div class="token-symbol">ETH</div>
-                                    <div class="token-name">Ethereum</div>
+                                    <div class="token-symbol">DOGE</div>
+                                    <div class="token-name">Dogecoin</div>
                                 </div>
                                 <div class="token-price">
-                                    <div class="token-price-value">$3,456</div>
-                                    <div class="token-price-change" style="color: var(--accent-green);">+1.87%</div>
+                                    <div class="token-price-value">$0.18</div>
+                                    <div class="token-price-change" style="color: var(--accent-green);">+12.5%</div>
                                 </div>
                             </div>
 
                             <div class="token-item">
-                                <div class="token-icon">🥉</div>
+                                <div class="token-icon">🐱</div>
                                 <div class="token-info">
-                                    <div class="token-symbol">BNB</div>
-                                    <div class="token-name">Binance Coin</div>
+                                    <div class="token-symbol">SHIB</div>
+                                    <div class="token-name">Shiba Inu</div>
                                 </div>
                                 <div class="token-price">
-                                    <div class="token-price-value">$412</div>
-                                    <div class="token-price-change" style="color: var(--accent-red);">-0.54%</div>
+                                    <div class="token-price-value">$0.000028</div>
+                                    <div class="token-price-change" style="color: var(--accent-red);">-5.4%</div>
+                                </div>
+                            </div>
+
+                            <div class="token-item">
+                                <div class="token-icon">🦎</div>
+                                <div class="token-info">
+                                    <div class="token-symbol">FLOKI</div>
+                                    <div class="token-name">Floki Inu</div>
+                                </div>
+                                <div class="token-price">
+                                    <div class="token-price-value">$0.000235</div>
+                                    <div class="token-price-change" style="color: var(--accent-green);">+28.7%</div>
                                 </div>
                             </div>
                         </div>
@@ -811,7 +828,7 @@
                     <div class="card-header">
                         <div class="card-title">
                             <div class="card-title-icon" style="background: rgba(0, 208, 132, 0.1);">📊</div>
-                            <span>最近活动</span>
+                            <span>MEME 交易动态</span>
                         </div>
                     </div>
                     
@@ -819,19 +836,28 @@
                         <div class="activity-item">
                             <div class="activity-icon buy">📈</div>
                             <div class="activity-content">
-                                <div class="activity-text"><strong>Alpha Shark</strong> 买入 ETH</div>
+                                <div class="activity-text"><strong>PEPE Sniper</strong> 买入 PEPE</div>
                                 <div class="activity-time">2 分钟前</div>
                             </div>
-                            <div class="activity-amount positive">+$420</div>
+                            <div class="activity-amount positive">+$2,420</div>
                         </div>
 
                         <div class="activity-item">
                             <div class="activity-icon sell">📉</div>
                             <div class="activity-content">
-                                <div class="activity-text"><strong>Quantum Eagle</strong> 卖出 BTC</div>
+                                <div class="activity-text"><strong>DOGE Hunter</strong> 卖出 DOGE</div>
                                 <div class="activity-time">5 分钟前</div>
                             </div>
-                            <div class="activity-amount positive">+$180</div>
+                            <div class="activity-amount positive">+$1,180</div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon buy">📈</div>
+                            <div class="activity-content">
+                                <div class="activity-text"><strong>FLOKI Master</strong> 买入 FLOKI</div>
+                                <div class="activity-time">12 分钟前</div>
+                            </div>
+                            <div class="activity-amount positive">+$895</div>
                         </div>
                     </div>
                 </div>
