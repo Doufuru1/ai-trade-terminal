@@ -841,9 +841,13 @@
 
     <script>
         // Contract Configuration
-        const CONTRACT_ADDRESS = '0xYOUR_CONTRACT_ADDRESS'; // 部署后替换
+        // ⚠️ 部署后替换为实际合约地址
+        const CONTRACT_ADDRESS = '0xYOUR_DEPLOYED_CONTRACT_ADDRESS'; 
         const BSC_RPC = 'https://bsc-dataseed.binance.org';
         const CHAIN_ID = 56;
+        
+        // 演示模式开关 - 部署完成后设为 false
+        const DEMO_MODE = true;
 
         // Contract ABI (简化版，实际使用完整 ABI)
         const CONTRACT_ABI = [
@@ -959,6 +963,17 @@
             
             if (!signer) {
                 showToast('请先连接钱包', 'error');
+                return;
+            }
+
+            // 演示模式检查
+            if (DEMO_MODE) {
+                showToast('⚠️ 演示模式：请先部署合约', 'warning');
+                console.log('演示模式 - 策略参数:', {
+                    name: document.getElementById('strategyName').value,
+                    type: document.getElementById('strategyType').value,
+                    investment: document.getElementById('investment').value
+                });
                 return;
             }
 
