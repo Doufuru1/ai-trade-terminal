@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Trade Terminal | AI Agent 智能交易</title>
+    <title>AI Trade Terminal | 智能交易策略平台</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <style>
         :root {
             --bg-primary: #0A0A0B;
@@ -26,11 +27,9 @@
             --font-mono: 'JetBrains Mono', monospace;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -40,13 +39,9 @@
             overflow-x: hidden;
         }
 
-        /* Background Grid */
         .bg-grid {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             background-image: 
                 linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
@@ -54,13 +49,9 @@
             background-size: 50px 50px;
         }
 
-        /* Ambient Glow */
         .ambient-glow {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             overflow: hidden;
             pointer-events: none;
@@ -74,20 +65,16 @@
         }
 
         .glow-1 {
-            width: 600px;
-            height: 600px;
+            width: 600px; height: 600px;
             background: var(--accent-blue);
-            top: -200px;
-            right: -200px;
+            top: -200px; right: -200px;
             animation: float 20s ease-in-out infinite;
         }
 
         .glow-2 {
-            width: 500px;
-            height: 500px;
+            width: 500px; height: 500px;
             background: var(--accent-purple);
-            bottom: -100px;
-            left: -100px;
+            bottom: -100px; left: -100px;
             animation: float 25s ease-in-out infinite reverse;
         }
 
@@ -99,9 +86,7 @@
         /* Navigation */
         .nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 100;
             background: rgba(10, 10, 11, 0.8);
             backdrop-filter: blur(20px);
@@ -127,8 +112,7 @@
         }
 
         .nav-logo-icon {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             background: var(--gradient-primary);
             border-radius: 10px;
             display: flex;
@@ -137,16 +121,9 @@
             font-size: 1.1rem;
         }
 
-        .nav-logo-text {
-            font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: -0.02em;
-        }
+        .nav-logo-text { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
 
-        .nav-links {
-            display: flex;
-            gap: 8px;
-        }
+        .nav-links { display: flex; gap: 8px; }
 
         .nav-link {
             padding: 8px 16px;
@@ -156,6 +133,7 @@
             font-weight: 500;
             border-radius: 8px;
             transition: all 0.2s ease;
+            cursor: pointer;
         }
 
         .nav-link:hover, .nav-link.active {
@@ -163,11 +141,7 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
-        .nav-wallet {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .nav-wallet { display: flex; align-items: center; gap: 12px; }
 
         .balance-badge {
             display: flex;
@@ -182,10 +156,7 @@
             font-weight: 600;
         }
 
-        .balance-badge .change {
-            color: var(--accent-green);
-            font-size: 0.75rem;
-        }
+        .balance-badge .change { color: var(--accent-green); font-size: 0.75rem; }
 
         .btn-connect {
             padding: 10px 18px;
@@ -199,16 +170,9 @@
             transition: all 0.2s ease;
         }
 
-        .btn-connect:hover {
-            background: #33DDFF;
-            transform: translateY(-1px);
-        }
+        .btn-connect:hover { background: #33DDFF; transform: translateY(-1px); }
 
-        /* Main Layout */
-        .main {
-            padding-top: 64px;
-            min-height: 100vh;
-        }
+        .main { padding-top: 64px; min-height: 100vh; }
 
         /* Stats Bar */
         .stats-bar {
@@ -241,18 +205,9 @@
             color: var(--text-primary);
         }
 
-        .stat-change {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-        }
-
-        .stat-change.positive {
-            color: var(--accent-green);
-        }
-
-        .stat-change.negative {
-            color: var(--accent-red);
-        }
+        .stat-change { font-family: var(--font-mono); font-size: 0.75rem; }
+        .stat-change.positive { color: var(--accent-green); }
+        .stat-change.negative { color: var(--accent-red); }
 
         /* Content Grid */
         .content-grid {
@@ -264,7 +219,6 @@
             gap: 24px;
         }
 
-        /* Cards */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -289,8 +243,7 @@
         }
 
         .card-title-icon {
-            width: 32px;
-            height: 32px;
+            width: 32px; height: 32px;
             background: rgba(0, 212, 255, 0.1);
             border-radius: 8px;
             display: flex;
@@ -299,11 +252,73 @@
             font-size: 1rem;
         }
 
-        .card-body {
-            padding: 20px 24px;
+        .card-body { padding: 20px 24px; }
+
+        /* Strategy Form */
+        .strategy-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        /* AI Agents Grid */
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+
+        .form-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-input, .form-select {
+            padding: 14px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .form-select option {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            padding: 16px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 10px;
+            color: var(--bg-primary);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Agent Cards */
         .agents-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -338,8 +353,7 @@
         }
 
         .agent-avatar {
-            width: 48px;
-            height: 48px;
+            width: 48px; height: 48px;
             border-radius: 12px;
             background: var(--gradient-primary);
             display: flex;
@@ -348,16 +362,8 @@
             font-size: 1.5rem;
         }
 
-        .agent-name {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-
-        .agent-type {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
+        .agent-name { font-weight: 600; font-size: 1rem; margin-bottom: 4px; }
+        .agent-type { font-size: 0.75rem; color: var(--text-muted); }
 
         .agent-status {
             display: flex;
@@ -373,8 +379,7 @@
 
         .agent-status::before {
             content: '';
-            width: 6px;
-            height: 6px;
+            width: 6px; height: 6px;
             background: var(--accent-green);
             border-radius: 50%;
             animation: pulse 2s infinite;
@@ -392,10 +397,7 @@
             margin-bottom: 16px;
         }
 
-        .agent-stat {
-            text-align: center;
-        }
-
+        .agent-stat { text-align: center; }
         .agent-stat-value {
             font-family: var(--font-mono);
             font-size: 1rem;
@@ -403,12 +405,7 @@
             color: var(--text-primary);
             margin-bottom: 2px;
         }
-
-        .agent-stat-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
+        .agent-stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
 
         .agent-pnl {
             display: flex;
@@ -418,11 +415,7 @@
             border-top: 1px solid var(--border-color);
         }
 
-        .agent-pnl-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
+        .agent-pnl-label { font-size: 0.875rem; color: var(--text-secondary); }
         .agent-pnl-value {
             font-family: var(--font-mono);
             font-size: 1.125rem;
@@ -430,54 +423,8 @@
             color: var(--accent-green);
         }
 
-        /* Portfolio Section */
-        .portfolio-chart {
-            height: 200px;
-            background: linear-gradient(180deg, rgba(0, 212, 255, 0.1) 0%, transparent 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chart-line {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent-blue);
-        }
-
-        .portfolio-total {
-            text-align: center;
-            padding: 24px;
-        }
-
-        .portfolio-label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .portfolio-value {
-            font-family: var(--font-mono);
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: var(--gradient-success);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
         /* Token List */
-        .token-list {
-            display: flex;
-            flex-direction: column;
-        }
+        .token-list { display: flex; flex-direction: column; }
 
         .token-item {
             display: flex;
@@ -488,17 +435,11 @@
             transition: background 0.2s ease;
         }
 
-        .token-item:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .token-item:last-child {
-            border-bottom: none;
-        }
+        .token-item:hover { background: rgba(255, 255, 255, 0.02); }
+        .token-item:last-child { border-bottom: none; }
 
         .token-icon {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border-radius: 50%;
             background: var(--bg-tertiary);
             display: flex;
@@ -507,118 +448,20 @@
             font-size: 1.25rem;
         }
 
-        .token-info {
-            flex: 1;
-        }
+        .token-info { flex: 1; }
+        .token-symbol { font-weight: 600; font-size: 0.9375rem; margin-bottom: 2px; }
+        .token-name { font-size: 0.75rem; color: var(--text-muted); }
 
-        .token-symbol {
-            font-weight: 600;
-            font-size: 0.9375rem;
-            margin-bottom: 2px;
-        }
-
-        .token-name {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .token-price {
-            text-align: right;
-        }
-
+        .token-price { text-align: right; }
         .token-price-value {
             font-family: var(--font-mono);
             font-weight: 600;
             font-size: 0.9375rem;
         }
-
         .token-price-change {
             font-family: var(--font-mono);
             font-size: 0.75rem;
             margin-top: 2px;
-        }
-
-        /* Trade Form */
-        .trade-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        .form-input {
-            padding: 14px 16px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 1rem;
-            transition: all 0.2s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-
-        .trade-type-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .trade-tab {
-            flex: 1;
-            padding: 12px;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .trade-tab.active {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-
-        .btn-trade {
-            padding: 16px;
-            background: var(--gradient-primary);
-            border: none;
-            border-radius: 10px;
-            color: var(--bg-primary);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-trade:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
-        }
-
-        /* Right Sidebar */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
         }
 
         /* Activity Feed */
@@ -628,15 +471,10 @@
             padding: 16px 0;
             border-bottom: 1px solid var(--border-color);
         }
-
-        .activity-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
+        .activity-item:last-child { border-bottom: none; padding-bottom: 0; }
 
         .activity-icon {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -644,34 +482,13 @@
             font-size: 1rem;
             flex-shrink: 0;
         }
+        .activity-icon.buy { background: rgba(0, 208, 132, 0.1); }
+        .activity-icon.sell { background: rgba(255, 71, 87, 0.1); }
 
-        .activity-icon.buy {
-            background: rgba(0, 208, 132, 0.1);
-        }
-
-        .activity-icon.sell {
-            background: rgba(255, 71, 87, 0.1);
-        }
-
-        .activity-content {
-            flex: 1;
-        }
-
-        .activity-text {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-
-        .activity-text strong {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .activity-time {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
+        .activity-content { flex: 1; }
+        .activity-text { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 4px; }
+        .activity-text strong { color: var(--text-primary); font-weight: 600; }
+        .activity-time { font-size: 0.75rem; color: var(--text-muted); }
 
         .activity-amount {
             text-align: right;
@@ -679,66 +496,63 @@
             font-size: 0.875rem;
             font-weight: 600;
         }
+        .activity-amount.positive { color: var(--accent-green); }
+        .activity-amount.negative { color: var(--accent-red); }
 
-        .activity-amount.positive {
-            color: var(--accent-green);
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-green);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 400px;
         }
 
-        .activity-amount.negative {
-            color: var(--accent-red);
+        .toast.show { transform: translateX(0); }
+        .toast.error { border-left-color: var(--accent-red); }
+        .toast.warning { border-left-color: var(--accent-orange); }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: var(--text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
         }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* Responsive */
         @media (max-width: 1200px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                order: -1;
-            }
-
-            .agents-grid {
-                grid-template-columns: 1fr;
-            }
+            .content-grid { grid-template-columns: 1fr; }
+            .agents-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .stats-bar {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .content-grid {
-                padding: 16px;
-            }
-
-            .card-header, .card-body {
-                padding: 16px;
-            }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-hover);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
-        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
     </style>
 </head>
 <body>
@@ -757,22 +571,25 @@
             </a>
             
             <div class="nav-links">
-                <a href="#" class="nav-link active">投资组合</a>
-                <a href="#" class="nav-link">代币市场</a>
-                <a href="#" class="nav-link">AI 策略</a>
-                <a href="#" class="nav-link">排行榜</a>
-                <a href="#" class="nav-link">设置</a>
+                <span class="nav-link active">交易策略</span>
+                <span class="nav-link">AI 代理</span>
+                <span class="nav-link">市场</span>
             </div>
             
             <div class="nav-wallet">
-                <div class="balance-badge">
-                    <span>$124,580.00</span>
-                    <span class="change">+12.5%</span>
+                <div class="balance-badge" id="walletBalance" style="display: none;">
+                    <span id="balanceText">--</span>
                 </div>
-                <button class="btn-connect">连接钱包</button>
+                <button class="btn-connect" id="connectBtn" onclick="connectWallet()">连接钱包</button>
             </div>
         </div>
     </nav>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span id="toastIcon">✅</span>
+        <span id="toastMessage"></span>
+    </div>
 
     <!-- Main Content -->
     <main class="main">
@@ -780,43 +597,111 @@
         <div class="stats-bar">
             <div class="stat-item">
                 <div class="stat-label">总资产</div>
-                <div class="stat-value">$124,580.00</div>
-                <div class="stat-change positive">+12.5% ($13,840)</div>
+                <div class="stat-value" id="totalAssets">$0.00</div>
+                <div class="stat-change positive">+0.00%</div>
             </div>
             <div class="stat-item">
                 <div class="stat-label">今日收益</div>
-                <div class="stat-value">$3,240.00</div>
-                <div class="stat-change positive">+2.67%</div>
+                <div class="stat-value" id="todayPnl">$0.00</div>
+                <div class="stat-change positive">+0.00%</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">AI 代理数量</div>
-                <div class="stat-value">8</div>
-                <div class="stat-change positive">6 运行中</div>
+                <div class="stat-label">活跃策略</div>
+                <div class="stat-value" id="activeStrategies">0</div>
+                <div class="stat-change">运行中</div>
             </div>
             <div class="stat-item">
                 <div class="stat-label">总交易次数</div>
-                <div class="stat-value">1,247</div>
-                <div class="stat-change positive">+89 今日</div>
+                <div class="stat-value" id="totalTrades">0</div>
+                <div class="stat-change">累计</div>
             </div>
         </div>
 
-        <!-- Content Grid -->
         <div class="content-grid">
             <!-- Left Column -->
             <div class="main-content">
+                <!-- Create Strategy Card -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="card-title-icon">📊</div>
+                            <span>创建交易策略</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form class="strategy-form" id="strategyForm">
+                            <div class="form-group">
+                                <label class="form-label">策略名称</label>
+                                <input type="text" class="form-input" id="strategyName" placeholder="例如：趋势跟踪策略" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">策略类型</label>
+                                <select class="form-select" id="strategyType" required>
+                                    <option value="0">📈 趋势跟踪 (Trend Following)</option>
+                                    <option value="1">⚡ 套利 (Arbitrage)</option>
+                                    <option value="2">🔄 网格交易 (Grid Trading)</option>
+                                    <option value="3">🚀 动量交易 (Momentum)</option>
+                                    <option value="4">📉 均值回归 (Mean Reversion)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">基础代币 (Base Token)</label>
+                                    <select class="form-select" id="baseToken">
+                                        <option value="0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c">WBNB</option>
+                                        <option value="0x55d398326f99059fF775485246999027B3197955">USDT</option>
+                                        <option value="0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d">USDC</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">目标代币 (Target Token)</label>
+                                    <select class="form-select" id="targetToken">
+                                        <option value="0x55d398326f99059fF775485246999027B3197955">USDT</option>
+                                        <option value="0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c">WBNB</option>
+                                        <option value="0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d">USDC</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">止盈比例 (%)</label>
+                                    <input type="number" class="form-input" id="takeProfit" value="5" min="1" max="50" step="0.5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">止损比例 (%)</label>
+                                    <input type="number" class="form-input" id="stopLoss" value="3" min="1" max="30" step="0.5" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">投资金额 (BNB)</label>
+                                <input type="number" class="form-input" id="investment" placeholder="0.1" min="0.01" step="0.01" required>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; display: block;">最低投资: 0.01 BNB</span>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary" id="createStrategyBtn">
+                                🚀 创建策略
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- AI Agents -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
                             <div class="card-title-icon">🤖</div>
-                            <span>我的 AI 交易代理</span>
+                            <span>AI 交易代理</span>
                         </div>
                         <button class="btn-connect" style="padding: 8px 16px; font-size: 0.875rem;">+ 创建代理</button>
                     </div>
                     
                     <div class="card-body">
                         <div class="agents-grid">
-                            <!-- Agent 1 -->
                             <div class="agent-card">
                                 <div class="agent-header">
                                     <div class="agent-info">
@@ -830,18 +715,9 @@
                                 </div>
                                 
                                 <div class="agent-stats">
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">+34.2%</div>
-                                        <div class="agent-stat-label">收益率</div>
-                                    </div>
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">89</div>
-                                        <div class="agent-stat-label">交易数</div>
-                                    </div>
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">$24.5K</div>
-                                        <div class="agent-stat-label">管理资金</div>
-                                    </div>
+                                    <div class="agent-stat"><div class="agent-stat-value">+34.2%</div><div class="agent-stat-label">收益率</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">89</div><div class="agent-stat-label">交易数</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">$24.5K</div><div class="agent-stat-label">资金</div></div>
                                 </div>
                                 
                                 <div class="agent-pnl">
@@ -850,7 +726,6 @@
                                 </div>
                             </div>
 
-                            <!-- Agent 2 -->
                             <div class="agent-card">
                                 <div class="agent-header">
                                     <div class="agent-info">
@@ -864,91 +739,14 @@
                                 </div>
                                 
                                 <div class="agent-stats">
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">+28.7%</div>
-                                        <div class="agent-stat-label">收益率</div>
-                                    </div>
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">156</div>
-                                        <div class="agent-stat-label">交易数</div>
-                                    </div>
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">$18.2K</div>
-                                        <div class="agent-stat-label">管理资金</div>
-                                    </div>
+                                    <div class="agent-stat"><div class="agent-stat-value">+28.7%</div><div class="agent-stat-label">收益率</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">156</div><div class="agent-stat-label">交易数</div></div>
+                                    <div class="agent-stat"><div class="agent-stat-value">$18.2K</div><div class="agent-stat-label">资金</div></div>
                                 </div>
                                 
                                 <div class="agent-pnl">
                                     <span class="agent-pnl-label">累计收益</span>
                                     <span class="agent-pnl-value">+$5,210</span>
-                                </div>
-                            </div>
-
-                            <!-- Agent 3 -->
-                            <div class="agent-card">
-                                <div class="agent-header">
-                                    <div class="agent-info">
-                                        <div class="agent-avatar" style="background: linear-gradient(135deg, #F59E0B, #D97706);">🦁</div>
-                                        <div>
-                                            <div class="agent-name">Golden Lion</div>
-                                            <div class="agent-type">价值投资型</div>
-                                        </div>
-                                    </div>
-                                    <div class="agent-status">运行中</div>
-                                </div>
-                                
-                                <div class="agent-stats">
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">+18.5%</div>
-                                        <div class="agent-stat-label">收益率</div>
-                                    </div>
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">45</div>
-                                        <div class="agent-stat-label">交易数</div>
-                                    </div>
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">$32.0K</div>
-                                        <div class="agent-stat-label">管理资金</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="agent-pnl">
-                                    <span class="agent-pnl-label">累计收益</span>
-                                    <span class="agent-pnl-value">+$5,920</span>
-                                </div>
-                            </div>
-
-                            <!-- Agent 4 -->
-                            <div class="agent-card">
-                                <div class="agent-header">
-                                    <div class="agent-info">
-                                        <div class="agent-avatar" style="background: linear-gradient(135deg, #EC4899, #BE185D);">🦋</div>
-                                        <div>
-                                            <div class="agent-name">Neural Butterfly</div>
-                                            <div class="agent-type">高频交易型</div>
-                                        </div>
-                                    </div>
-                                    <div class="agent-status">运行中</div>
-                                </div>
-                                
-                                <div class="agent-stats">
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">+42.1%</div>
-                                        <div class="agent-stat-label">收益率</div>
-                                    </div>
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">892</div>
-                                        <div class="agent-stat-label">交易数</div>
-                                    </div>
-                                    <div class="agent-stat">
-                                        <div class="agent-stat-value">$12.5K</div>
-                                        <div class="agent-stat-label">管理资金</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="agent-pnl">
-                                    <span class="agent-pnl-label">累计收益</span>
-                                    <span class="agent-pnl-value">+$5,260</span>
                                 </div>
                             </div>
                         </div>
@@ -958,43 +756,7 @@
 
             <!-- Right Sidebar -->
             <div class="sidebar">
-                <!-- Quick Trade -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <div class="card-title-icon">💱</div>
-                            <span>快速交易</span>
-                        </div>
-                    </div>
-                    
-                    <div class="card-body">
-                        <div class="trade-form">
-                            <div class="trade-type-tabs">
-                                <button class="trade-tab active">买入</button>
-                                <button class="trade-tab">卖出</button>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">代币</label>
-                                <input type="text" class="form-input" placeholder="搜索代币..." value="ETH">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">数量</label>
-                                <input type="text" class="form-input" placeholder="0.00" value="1.5">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">价格</label>
-                                <input type="text" class="form-input" placeholder="$0.00" value="$3,240.00">
-                            </div>
-                            
-                            <button class="btn-trade">执行交易</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Top Tokens -->
+                <!-- Market Prices -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
@@ -1013,7 +775,7 @@
                                 </div>
                                 <div class="token-price">
                                     <div class="token-price-value">$67,234</div>
-                                    <div class="token-price-change positive">+2.34%</div>
+                                    <div class="token-price-change" style="color: var(--accent-green);">+2.34%</div>
                                 </div>
                             </div>
 
@@ -1025,7 +787,7 @@
                                 </div>
                                 <div class="token-price">
                                     <div class="token-price-value">$3,456</div>
-                                    <div class="token-price-change positive">+1.87%</div>
+                                    <div class="token-price-change" style="color: var(--accent-green);">+1.87%</div>
                                 </div>
                             </div>
 
@@ -1037,19 +799,7 @@
                                 </div>
                                 <div class="token-price">
                                     <div class="token-price-value">$412</div>
-                                    <div class="token-price-change negative">-0.54%</div>
-                                </div>
-                            </div>
-
-                            <div class="token-item">
-                                <div class="token-icon">⚡</div>
-                                <div class="token-info">
-                                    <div class="token-symbol">SOL</div>
-                                    <div class="token-name">Solana</div>
-                                </div>
-                                <div class="token-price">
-                                    <div class="token-price-value">$178</div>
-                                    <div class="token-price-change positive">+5.23%</div>
+                                    <div class="token-price-change" style="color: var(--accent-red);">-0.54%</div>
                                 </div>
                             </div>
                         </div>
@@ -1078,33 +828,233 @@
                         <div class="activity-item">
                             <div class="activity-icon sell">📉</div>
                             <div class="activity-content">
-                                <div class="activity-text"><strong>Neural Butterfly</strong> 卖出 BTC</div>
+                                <div class="activity-text"><strong>Quantum Eagle</strong> 卖出 BTC</div>
                                 <div class="activity-time">5 分钟前</div>
                             </div>
                             <div class="activity-amount positive">+$180</div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-icon buy">📈</div>
-                            <div class="activity-content">
-                                <div class="activity-text"><strong>Quantum Eagle</strong> 买入 SOL</div>
-                                <div class="activity-time">12 分钟前</div>
-                            </div>
-                            <div class="activity-amount positive">+$95</div>
-                        </div>
-
-                        <div class="activity-item">
-                            <div class="activity-icon sell">📉</div>
-                            <div class="activity-content">
-                                <div class="activity-text"><strong>Golden Lion</strong> 卖出 BNB</div>
-                                <div class="activity-time">28 分钟前</div>
-                            </div>
-                            <div class="activity-amount negative">-$24</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <script>
+        // Contract Configuration
+        const CONTRACT_ADDRESS = '0xYOUR_CONTRACT_ADDRESS'; // 部署后替换
+        const BSC_RPC = 'https://bsc-dataseed.binance.org';
+        const CHAIN_ID = 56;
+
+        // Contract ABI (简化版，实际使用完整 ABI)
+        const CONTRACT_ABI = [
+            "function createStrategy(string _name, uint8 _strategyType, address _baseToken, address _targetToken, uint256 _takeProfit, uint256 _stopLoss, uint256 _maxSlippage) payable returns (uint256)",
+            "function executeTrade(uint256 _strategyId, uint8 _tradeType, address _tokenIn, address _tokenOut, uint256 _amountIn, uint256 _amountOut, uint256 _price) returns (uint256)",
+            "function createAIAgent(string _name) returns (uint256)",
+            "function strategies(uint256) view returns (tuple(uint256 id, address owner, string name, uint8 strategyType, uint8 status, address baseToken, address targetToken, uint256 initialInvestment, uint256 currentBalance, uint256 takeProfit, uint256 stopLoss, uint256 maxSlippage, uint256 createdAt, uint256 totalTrades, uint256 profitableTrades, int256 totalPnL, bool isActive))",
+            "function getUserStrategies(address _user) view returns (uint256[])",
+            "function platformFee() view returns (uint256)",
+            "function minInvestment() view returns (uint256)",
+            "event StrategyCreated(uint256 indexed strategyId, address indexed owner, string name, uint8 strategyType)"
+        ];
+
+        let provider, signer, contract;
+
+        // Show Toast
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            const msg = document.getElementById('toastMessage');
+            
+            toast.className = 'toast';
+            if (type === 'error') toast.classList.add('error');
+            if (type === 'warning') toast.classList.add('warning');
+            
+            icon.textContent = type === 'success' ? '✅' : type === 'error' ? '❌' : '⚠️';
+            msg.textContent = message;
+            
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // Connect Wallet
+        async function connectWallet() {
+            try {
+                if (!window.ethereum) {
+                    showToast('请安装 MetaMask 钱包', 'error');
+                    return;
+                }
+
+                // Request account access
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
+
+                // Check network
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                if (parseInt(chainId, 16) !== CHAIN_ID) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: '0x38' }] // BNB Chain
+                        });
+                    } catch (switchError) {
+                        showToast('请切换到 BNB Chain 网络', 'error');
+                        return;
+                    }
+                }
+
+                // Setup provider and signer
+                provider = new ethers.providers.Web3Provider(window.ethereum);
+                signer = provider.getSigner();
+                
+                // Initialize contract
+                contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+                const address = accounts[0];
+                const shortAddress = address.slice(0, 6) + '...' + address.slice(-4);
+                
+                document.getElementById('connectBtn').textContent = shortAddress;
+                document.getElementById('walletBalance').style.display = 'flex';
+                
+                // Get balance
+                const balance = await provider.getBalance(address);
+                const balanceInBNB = ethers.utils.formatEther(balance);
+                document.getElementById('balanceText').textContent = parseFloat(balanceInBNB).toFixed(4) + ' BNB';
+                
+                showToast('钱包连接成功!');
+                
+                // Load user data
+                await loadUserStrategies(address);
+                
+            } catch (error) {
+                console.error('Connection error:', error);
+                showToast('连接失败: ' + error.message, 'error');
+            }
+        }
+
+        // Load User Strategies
+        async function loadUserStrategies(address) {
+            if (!contract) return;
+            
+            try {
+                const strategyIds = await contract.getUserStrategies(address);
+                document.getElementById('activeStrategies').textContent = strategyIds.length;
+                
+                // Calculate total trades
+                let totalTrades = 0;
+                for (const id of strategyIds) {
+                    const strategy = await contract.strategies(id);
+                    totalTrades += strategy.totalTrades.toNumber();
+                }
+                document.getElementById('totalTrades').textContent = totalTrades;
+                
+            } catch (error) {
+                console.error('Load strategies error:', error);
+            }
+        }
+
+        // Create Strategy
+        async function createStrategy(e) {
+            e.preventDefault();
+            
+            if (!signer) {
+                showToast('请先连接钱包', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('createStrategyBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>创建中...';
+
+            try {
+                const name = document.getElementById('strategyName').value;
+                const strategyType = document.getElementById('strategyType').value;
+                const baseToken = document.getElementById('baseToken').value;
+                const targetToken = document.getElementById('targetToken').value;
+                const takeProfit = Math.floor(parseFloat(document.getElementById('takeProfit').value) * 100); // Convert to basis points
+                const stopLoss = Math.floor(parseFloat(document.getElementById('stopLoss').value) * 100);
+                const investment = document.getElementById('investment').value;
+                const maxSlippage = 100; // 1% default
+
+                // Validate
+                if (parseFloat(investment) < 0.01) {
+                    showToast('最低投资 0.01 BNB', 'error');
+                    return;
+                }
+
+                // Create strategy
+                const tx = await contract.createStrategy(
+                    name,
+                    strategyType,
+                    baseToken,
+                    targetToken,
+                    takeProfit,
+                    stopLoss,
+                    maxSlippage,
+                    { 
+                        value: ethers.utils.parseEther(investment),
+                        gasLimit: 500000 
+                    }
+                );
+
+                showToast('交易已提交，等待确认...', 'warning');
+                
+                const receipt = await tx.wait();
+                
+                // Get strategy ID from event
+                const event = receipt.events.find(e => e.event === 'StrategyCreated');
+                const strategyId = event ? event.args.strategyId.toString() : 'unknown';
+                
+                showToast(`策略创建成功! ID: ${strategyId}`);
+                
+                // Reset form
+                document.getElementById('strategyForm').reset();
+                
+                // Reload data
+                const address = await signer.getAddress();
+                await loadUserStrategies(address);
+                
+            } catch (error) {
+                console.error('Create strategy error:', error);
+                showToast('创建失败: ' + (error.reason || error.message), 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🚀 创建策略';
+            }
+        }
+
+        // Listen for account changes
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    document.getElementById('connectBtn').textContent = '连接钱包';
+                    document.getElementById('walletBalance').style.display = 'none';
+                    signer = null;
+                    contract = null;
+                } else {
+                    connectWallet();
+                }
+            });
+
+            window.ethereum.on('chainChanged', () => {
+                window.location.reload();
+            });
+        }
+
+        // Form submission
+        document.getElementById('strategyForm').addEventListener('submit', createStrategy);
+
+        // Auto-connect if previously connected
+        async function checkConnection() {
+            if (window.ethereum) {
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                if (accounts.length > 0) {
+                    connectWallet();
+                }
+            }
+        }
+        
+        checkConnection();
+    </script>
 </body>
 </html>
